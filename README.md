@@ -128,3 +128,101 @@ Untuk routing pada CPT, diberikan static route pada semua router yang ada dengan
 ```
 0.0.0.0/0 via 192.194.26.1
 ```
+
+### Testing
+
+Testing pada CPT dapat dilakukan dengan tombol Add Simple PDU yang dilambangkan dengan icon pesan pada top navigation.
+
+1. Client Elena ke Client Blueno
+   ![VLSM-tes-a](./imgs/vlsm-tes-a.PNG)
+2. Client Cipher ke Router Alabasta
+   ![VLSM-tes-b](./imgs/vlsm-tes-b.PNG)
+3. Router Pucci ke Router Seastone
+   ![VLSM-tes-c](./imgs/vlsm-tes-c.PNG)
+
+## CIDR (Classless Inter Domain Routing) - GNS3
+
+#### Langkah 1
+
+### Perhitungan Subnet
+
+Menggabungkan subnet-subnet paling bawah dalam topologi, berikut penggabungannya:
+
+![CIDR-a](./imgs/cidr-a.PNG)
+![CIDR-b](./imgs/cidr-b.PNG)
+![CIDR-c](./imgs/cidr-c.PNG)
+![CIDR-d](./imgs/cidr-d.PNG)
+![CIDR-e](./imgs/cidr-e.PNG)
+![CIDR-f](./imgs/cidr-f.PNG)
+![CIDR-g](./imgs/cidr-g.PNG)
+![CIDR-h](./imgs/cidr-h.PNG)
+
+#### Langkah 2
+
+Sehingga di dapatkan berikut pohon pembagian IP berdasarkan penggabungan subnet yang telah dilakukan:
+
+![CIDR-tree](./imgs/cidr-tree.PNG)
+
+#### Langkah 3
+
+Dilakukan pembaagian IP sehingga didapati tabel dibawah ini:
+![CIDR-table](./imgs/cidr-table.PNG)
+
+Berikut merupakan gambar topologi yang telah disubnetting:
+
+![CIDR-topologi](./imgs/cidr-topologi.PNG)
+
+### Routing
+
+#### Subnetting
+
+Pertama-tama, topologi dibuat dalam GNS3.
+
+![CIDR-gns3](./imgs/cidr-gns3.PNG)
+
+Lalu setiap node dikonfigurasi dengan cara `Configure > Edit Network Configuration`. Berikut merupakan salah satu contoh, yaitu menggunakan node `Foosha`:
+
+Pada `Edit Network Configuration` Foosha, isi konfigurasi masing-masing jalur berdasarkan subnetting yang sudah dibuat sebelumnya:
+
+```
+auto eth0
+iface eth0 inet static
+address 192.168.122.2
+netmask 255.255.255.0
+gateway 192.168.122.1
+
+auto eth1
+iface eth1 inet static
+address 192.194.64.1
+netmask 255.255.252.0
+
+auto eth2
+iface eth2 inet static
+address 192.194.192.1
+netmask 255.255.255.252
+
+auto eth3
+iface eth3 inet static
+address 192.194.32.1
+netmask 255.255.255.252
+```
+
+![CIDR-foosha](./imgs/cidr-foosha.PNG)
+Misal, karena disini `eth1` mengarah ke `Blueno (1000 Host)`, maka kita menggunakan subnet A12 dengan NID `192.194.64.0`. Pada konfigurasi `Foosha`, address untuk `eth1`-nya ditambahi 1 dari NID subnet A6 hingga menjadi `192.194.64.1`.
+
+![CIDR-blueno](./imgs/cidr-blueno.PNG)
+Untuk kliennya, yaitu `Blueno (1000 Host)`, address untuk `eth0`-nya ditambahi 1 lagi dari IP Foosha sehingga menjadi `192.194.64.2`. Untuk netmasknya mengikuti tabel yang telah dibuat sebelumnya. Gateway hanya digunakan untuk klien dan server dan mengarah ke IP router terdekat, jadi gateway untuk klien `Blueno (1000 Host)` adalah `192.194.64.1`.
+
+Hal ini dilakukan pada semua node dan subnetting pun selesai.
+
+Agar dapat mengakses internet, pada **FOOSHA** diketikkan perintah
+
+```
+iptables –t nat –A POSTROUTING –o eth0 –j MASQUERADE –s 192.194.0.0/16
+```
+
+Selain itu jangan lupa untuk menambahkan kode ini juga pada setiap node agar dapat terhubung ke internet:
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+```
