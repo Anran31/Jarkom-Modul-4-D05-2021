@@ -283,4 +283,5 @@ Setup pun selesai dan kita bisa melakukan testing ping antar node, berikut merup
    ![CIDR-tes-d](./imgs/cidr-tes-d.PNG)
 
    ping yang dilakukan adalah ke my.its.ac.id karena jika melakukan ping ke its.ac.id akan terjadi `Request Timed Out`
+   
    ![RTO](./imgs/rto.PNG)
