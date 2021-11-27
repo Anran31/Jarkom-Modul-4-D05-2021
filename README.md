@@ -59,11 +59,11 @@ Pertama-tama, topologi dibuat dalam CPT.
 
 ![VLSM-foosha](./imgs/vlsm-foosha.PNG)
 
-Misal, karena disini `FastEthernet0/1` mengarah ke `Blueno (1000 Host)`, maka kita menggunakan subnet A12 dengan NID `10.19.8.0`. Pada konfigurasi `Foosha`, address untuk `FastEthernet0/1`-nya ditambahi 1 dari NID subnet A12 hingga menjadi `10.19.8.1`.
+Misal, karena disini `FastEthernet0/1` mengarah ke `Blueno (1000 Host)`, maka kita menggunakan subnet A12 dengan NID `192.194.8.0`. Pada konfigurasi `Foosha`, address untuk `FastEthernet0/1`-nya ditambahi 1 dari NID subnet A12 hingga menjadi `192.194.8.1`.
 
 ![VLSM-blueno](./imgs/vlsm-blueno.PNG)
 
-Untuk kliennya, yaitu `Blueno (1000 Host)`, untuk config IP-nya ditambahi 1 lagi dari IP Foosha sehingga menjadi `10.19.8.2`. Untuk netmasknya mengikuti tabel yang telah dibuat sebelumnya. Gateway hanya digunakan untuk klien dan server dan mengarah ke IP router terdekat, jadi gateway untuk klien `Blueno (1000 Host)` adalah `10.19.8.1`.
+Untuk kliennya, yaitu `Blueno (1000 Host)`, untuk config IP-nya ditambahi 1 lagi dari IP Foosha sehingga menjadi `192.194.8.2`. Untuk netmasknya mengikuti tabel yang telah dibuat sebelumnya. Gateway hanya digunakan untuk klien dan server dan mengarah ke IP router terdekat, jadi gateway untuk klien `Blueno (1000 Host)` adalah `192.194.8.1`.
 
 Hal ini dilakukan pada semua node dan subnetting pun selesai.
 
