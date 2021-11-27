@@ -274,12 +274,19 @@ route add -net 192.194.0.0 netmask 255.255.248.0 gw 192.194.4.3
 Setup pun selesai dan kita bisa melakukan testing ping antar node, berikut merupakan beberapa contoh ping:
 
 1. Client Elena ke Client Blueno
+
    ![CIDR-tes-a](./imgs/cidr-tes-a.PNG)
+   
 2. Client Cipher ke Router Alabasta
+
    ![CIDR-tes-b](./imgs/cidr-tes-b.PNG)
+   
 3. Router Pucci ke Router Seastone
+
    ![CIDR-tes-c](./imgs/cidr-tes-c.PNG)
+   
 4. Client Elena ke my.its.ac.id
+
    ![CIDR-tes-d](./imgs/cidr-tes-d.PNG)
 
    ping yang dilakukan adalah ke my.its.ac.id karena jika melakukan ping ke its.ac.id akan terjadi `Request Timed Out`
