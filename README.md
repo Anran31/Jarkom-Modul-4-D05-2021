@@ -226,3 +226,61 @@ Selain itu jangan lupa untuk menambahkan kode ini juga pada setiap node agar dap
 ```
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
+
+#### Routing
+
+Kemudian pada 4 router yaitu **FOOSHA**, **WATER7**, **GUANHAO**, dan **OIMO** ditambahkan route baru (pada router lain tidak perlu, karena hanya memerlukan route 0.0.0.0/0 di mana secara otomatis tersetting).
+
+Routing menggunakan CIDR jauh lebih sederhana karena mereka sudah terkelompokkan dari pembagian IP-nya, sehingga untuk setiap Router memerlukan dari gabungan subnet berikut:
+
+- **FOOSHA** = A12, E2, F1
+- **WATER7** = A10, C2
+- **GUANHAO** = A5, B2, C1
+- **OIMO** = B1
+
+##### Foosha
+
+```
+route add -net 192.194.64.0 netmask 255.255.252.0 gw 192.194.64.2
+route add -net 192.194.128.0 netmask 255.255.128.0 gw 192.194.192.2
+route add -net 192.194.0.0 netmask 255.255.192.0 gw 192.194.32.2
+```
+
+##### Water7
+
+```
+route add -net 192.194.160.0 netmask 255.255.252.0 gw 192.194.160.2
+route add -net 192.194.128.0 netmask 255.255.224.0 gw 192.194.144.2
+```
+
+##### Guanhao
+
+```
+route add -net 192.194.20.0 netmask 255.255.252.0 gw 192.194.20.2
+route add -net 192.194.16.0 netmask 255.255.252.0 gw 192.194.16.2
+route add -net 192.194.16.0 netmask 255.255.252.0 gw 192.194.16.3
+route add -net 192.194.0.0 netmask 255.255.240.0 gw 192.194.8.2
+```
+
+##### Oimo
+
+```
+route add -net 192.194.0.0 netmask 255.255.248.0 gw 192.194.4.2
+route add -net 192.194.0.0 netmask 255.255.248.0 gw 192.194.4.3
+```
+
+#### Testing
+
+Setup pun selesai dan kita bisa melakukan testing ping antar node, berikut merupakan beberapa contoh ping:
+
+1. Client Elena ke Client Blueno
+   ![CIDR-tes-a](./imgs/cidr-tes-a.PNG)
+2. Client Cipher ke Router Alabasta
+   ![CIDR-tes-b](./imgs/cidr-tes-b.PNG)
+3. Router Pucci ke Router Seastone
+   ![CIDR-tes-c](./imgs/cidr-tes-c.PNG)
+4. Client Elena ke my.its.ac.id
+   ![CIDR-tes-d](./imgs/cidr-tes-d.PNG)
+
+   ping yang dilakukan adalah ke my.its.ac.id karena jika melakukan ping ke its.ac.id akan terjadi `Request Timed Out`
+   ![RTO](./imgs/rto.PNG)
